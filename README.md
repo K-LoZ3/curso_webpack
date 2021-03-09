@@ -23,3 +23,40 @@
    ~~~
    "build": "webpack --mode production"
    ~~~
+#### Babel Loader para JavaScript
+Con babel transpilamos el codigo para que las nuevas funcionalidades de js que estan el el proyecto sean traducidas a js que todo navegador pueda ejecutar sin problemas.
+1. Instalamos babel como dependencias de desarrollador y otras dependencias que nos ayudaran con esto. (Algunas la usaremos en clases posteriores).
+   ~~~
+   npm install -D babel-loader @babel/core @babel/preset-env @babel/plugin-transform-runtime
+   ~~~
+   - babel-loader nos permite usar babel con webpack.
+   - @babel/core es babel en general.
+   - @babel/preset-env trae y permite usar las ultimas características de JavaScript.
+   - @babel/plugin-transform-runtime te permite trabajar con todo el tema de asincronismo como ser async y await.
+2. Creamos el archivo de configuración de babel ".babelrc".
+   ~~~
+   {
+      "presets": [
+         "@babel/preset-env"
+      ],
+      "plugins": [
+         "@babel/plugin-transform-runtime"
+      ]
+   }
+   ~~~
+   De momenton solo tendra esto que es la configuracion necesaria para que transpile js.
+3. Para poder uzarlo añadimos la configuracion el webpack para que sepa que tipo de archivos usaran la configuracion de babel y cuales no.
+   ~~~
+   module: {
+      rules: [
+         {
+            test: /\.js$/, // Test declara que extensión de archivos aplicara el loader.
+            exclude: /node_modules/, // Exclude permite omitir archivos o carpetas especificas
+            use: {
+               loader: "babel-loader", // Use es un arreglo u objeto donde dices que loader aplicar
+            },
+         }
+      ]
+   }
+   ~~~
+   - module es otro elemneto del webpack. En este añadiremos las reglas que usara para las diferentes configuraciones que tendra el proyecto. Babel, eslint...

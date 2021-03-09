@@ -11,5 +11,19 @@ module.exports = {
     },
     resolve: {
         extensions: ['.js'] // LOS ARCHIVOS QUE WEBPACK VA A LEER
+    },
+    module: {
+      rules: [
+         {
+            // Test declara que extensión de archivos aplicara el loader
+            test: /\.js$/,
+            // Exclude permite omitir archivos o carpetas especificas
+            exclude: /node_modules/,
+            // Use es un arreglo u objeto donde dices que loader aplicaras
+            use: {
+               loader: "babel-loader",
+            },
+         }
+      ]
     }
 }
