@@ -1,5 +1,6 @@
 const path = require('path'); // Para trabajar con archivos y rutas de directorios
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
     entry: './src/index.js', // El punto de entrada de mi aplicación
@@ -25,8 +26,16 @@ module.exports = {
             use: {
                loader: "babel-loader",
             },
+         },
+         {
+            test: /\.css|.styl$/i,
+            use: [
+               MiniCssExtractPlugin.loader,
+               "css-loader",
+               "stylus-loader",
+            ]
          }
-      ]
+      ],
    },
    plugins: [
       new HtmlWebpackPlugin({ // CONFIGURACIÓN DEL PLUGIN
@@ -34,5 +43,6 @@ module.exports = {
          template: './public/index.html', // LA RUTA AL TEMPLATE HTML
          filename: './index.html', // NOMBRE FINAL DEL ARCHIVO
       }),
+      new MiniCssExtractPlugin(),
    ],
 }

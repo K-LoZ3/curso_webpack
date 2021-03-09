@@ -85,3 +85,56 @@ Para poder trabajar con html en webpack debemos intalar un paquete como dependen
    ~~~
    "dev": "webpack --mode development"
    ~~~
+#### Loaders para CSS y preprocesadores de CSS
+1. Para empezar necesitamos el plugin para el manejo css como dependencia de desarrollador.
+   ~~~
+   npm i mini-css-extract-plugin css-loader -D
+   ~~~
+   - css-loader ⇒ Loader para reconocer CSS
+   - mini-css-extract-plugin ⇒ Extrae el CSS en archivos
+2. Creamos la nueva regla en el webpack config para que sea manejado el css.
+   ~~~
+   {
+      test: /\.css$/i,
+      use: [
+         MiniCssExtractPlugin.loader,
+         "css-loader",
+      ]
+   }
+   ~~~
+3. incluimos el plugin para esta configuracion despues de importarlo dentro de webpack.
+   ~~~
+   const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+   // ...
+   new MiniCssExtractPlugin()
+   ~~~
+4. Eliminamos el enlace que se hace de css en el html ya que webpack  lo enlazara por nosotro. Adicional a esto importamos el css directamente en el index.js ya que es la entrada del proyecto.
+   ~~~
+   import './styles/main.css';
+   ~~~
+###### Preprosesadores css
+Para esto instalamos el preprocesador que queremos. Como solo queremos el preprocesador dentro de webpack solo instalamos el loader para stylus o node-sass sass-loader para sass.
+   ~~~
+   // Para stylus
+   npm i stylus stylus-loader -D
+   // Para sass
+   npm i -D node-sass sass-loader
+   ~~~
+1. Cambiamos un poco la regla del webpack.
+   ~~~
+   // Para stylus
+   test: /\.css|styl$/i,
+   use: [
+      MiniCssExtractPlugin.loader,
+      "css-loader",
+      "stylus-loader",
+   ]
+   // Para sass
+   test: /\.(s*)css$/,
+   use: [
+      { loader: MiniCssExtractPlugin.loader },
+      'css-loader',
+      'sass-loader',
+   ]
+   ~~~
+   - Para comprobar creamos un segundo archivo con la extencion a usar y añadimos css para ver si no procesa, importamos el archivo dentro del index.js para que este este conectado a la raiz del proyecto..
