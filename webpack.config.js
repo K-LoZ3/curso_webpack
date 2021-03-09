@@ -1,6 +1,7 @@
 const path = require('path'); // Para trabajar con archivos y rutas de directorios
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry: './src/index.js', // El punto de entrada de mi aplicación
@@ -44,5 +45,13 @@ module.exports = {
          filename: './index.html', // NOMBRE FINAL DEL ARCHIVO
       }),
       new MiniCssExtractPlugin(),
+      new CopyPlugin({
+         patterns: [
+            {
+               from: path.resolve(__dirname, "src", "assets/images"),
+               to: "assets/images",
+            },
+         ],
+      }),
    ],
 }

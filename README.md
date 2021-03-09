@@ -11,7 +11,7 @@
       entry: './src/index.js'
       ~~~
    -  El segundo elemento es el output que sera la salida o el resultado de configurar el proyecto. Este recive un objeto con varias configuraciones.
-      - path sera la ruta donde estara el resultante. La buscamos con path.resolve(--dirname, 'dist'), ya que de esta manera aseguramos que sea la ruta exacta del proyecto.
+      - path. Resolve o Join path. Cuando trabajamos en entorno de Node, habrán ocasiones que deberamos describir, mediante una dirección absoluta, el directorio de trabajo. En Node, tenemos una libreía nativa pathpara resolver este caso. sera la ruta donde estara el resultante. La buscamos con path.resolve(--dirname, 'dist'), ya que de esta manera aseguramos que sea la ruta exacta del proyecto.
       - filename sera el nombre del archivo que resulte de la configuracion.
    - El tercer elemento es resolve que recive un objeto de configuracion como el anterior.
       - Lo primero es extensions que recive un arreglo con las extenciones de los archivos que maneja el proyecto.
@@ -138,3 +138,51 @@ Para esto instalamos el preprocesador que queremos. Como solo queremos el prepro
    ]
    ~~~
    - Para comprobar creamos un segundo archivo con la extencion a usar y añadimos css para ver si no procesa, importamos el archivo dentro del index.js para que este este conectado a la raiz del proyecto..
+#### Copia de archivos con Webpack
+Abrán veces que necesitmeos resolver o unir directorios de trabajos. Donde, con una simple declaración, podriamos caer en un sencillo copy & paste sin entender sus efectos (que pudiesen ser similares).
+Cuando deseen estructurar un directorio de trabajo a partir de una dirección absoluta, sin importar el SO, se utiliza path.resolve([...paths]) por ello, si queremos utilizar nuestro directorio de trabajo como una referencia, utilizamos __dirname y de ahí, resolverá el conjunto de paths que le anexemos.
+   ~~~
+   /*
+   En nuestro ejemplo, resolverá nuestro path en /user/path/to/workdirectory/ + src + assets/images
+   quedando algo similar a /users/path/to/js-portfolio/src/assets/images
+   */
+   path.resolve(__dirname, 'src', 'assets/images');
+   ~~~
+   Se tendrá que ser cuidadoso en el proceso de construcción porque cada forma de escribir el path, generará en un path diferente.
+   ~~~
+   path.resolve('/foo/bar', './baz');
+   // Returns: '/foo/bar/baz'
+
+   path.resolve('/foo/bar', '/tmp/file/');
+   // Returns: '/tmp/file'
+
+   path.resolve('wwwroot', 'static_files/png/', '../gif/image.gif');
+   // If the current working directory is /home/myself/node,
+   // this returns '/home/myself/node/wwwroot/static_files/gif/image.gif'
+   ~~~
+1. Instalamos copy-webpack-plugin.
+   ~~~
+   npm i copy-webpack-plugin -D
+   ~~~
+2. Agregamos la config en webpack.
+   ~~~
+   const CopyPlugin = require('copy-webpack-plugin');
+   // ...
+   new CopyPlugin({
+      patterns: [
+         {
+            from: path.resolve(__dirname, "src", "assets/images"),
+            to: "assets/images",
+         }
+      ],
+    }),
+   ~~~
+   - From ⇒ que recurso (archivo o directorio) deseamos copiar al directorio final.
+   - To ⇒ en que ruta dentro de la carpeta final terminara los recursos.
+3. Cambiamos las rutas en el html ya que el llamado es diferente.
+   ~~~
+   // Ruta anterior
+   "../src/assets/images/instagram.png"
+   // Nueva Ruta
+   "assets/images/instagram.png"
+   ~~~
