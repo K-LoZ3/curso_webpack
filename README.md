@@ -186,3 +186,22 @@ Cuando deseen estructurar un directorio de trabajo a partir de una dirección ab
    // Nueva Ruta
    "assets/images/instagram.png"
    ~~~
+#### Loaders de imágenes
+Con la configuracion que trae webpack agregaremos la configuracion para manejar las imagenes como una variable con imports, de esta manera sera mejor la forma en la que trabajaremos con ellas en el proyecto. Este loader nos permite importar de forma dinámica en nuestros archivos JavaScript imágenes, el loader le genera un hash unico para cada imagen. Algo parecido sucede con ReactJS al importar imágenes
+1. Creamos una nueva regla en webpack config. De momento solo con los archivos .png
+   ~~~
+   {
+      test: /\.png/,
+      type: 'asset/resource'
+   }
+   ~~~
+2. Importamos en el archivo que se esta usando las imagenes necesarias "template.js"
+   ~~~
+   import github from '../assets/images/github.png';
+   import twitter from '../assets/images/twitter.png';
+   import instagram from '../assets/images/instagram.png';
+   // ...
+   <a href="https://instagram.com/gndx">
+      <img src="${instagram}" />
+   </a>
+   ~~~
