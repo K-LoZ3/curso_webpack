@@ -60,3 +60,28 @@ Con babel transpilamos el codigo para que las nuevas funcionalidades de js que e
    }
    ~~~
    - module es otro elemneto del webpack. En este añadiremos las reglas que usara para las diferentes configuraciones que tendra el proyecto. Babel, eslint...
+#### HTML en Webpack
+Para poder trabajar con html en webpack debemos intalar un paquete como dependencia de desarrollo que se encargara de de entenderlo y procesarlo para el proyecto.
+   ~~~
+   npm i html-webpack-plugin -D
+   ~~~
+1. Luego de instalado en el archivo de webpack.confing inportamos este paquete/plugin para usarlos.
+   ~~~
+   const HtmlWebpackPlugin = require('html-webpack-plugin');
+   ~~~
+2. Seguido de modules añadimos un elemento de plugins, este recive un arreglo con los pligins.
+   - Intanciamos el plugin como un objeto y como valores de configuracion del plugin le pasamos un objeto con los elementos necesarios. (Inject: true) para que haga la incercion de los elementos. (template: './public/index.html') el template es donde esta el html que se usa para esto. (filename: './index.html') es el nombre que tendra el erchivo resultante del template.
+      ~~~
+      plugins: [
+         new HtmlWebpackPlugin({ // CONFIGURACIÓN DEL PLUGIN
+               inject: true, // INYECTA EL BUNDLE AL TEMPLATE HTML
+               template: './public/index.html', // LA RUTA AL TEMPLATE HTML
+               filename: './index.html', // NOMBRE FINAL DEL ARCHIVO
+         }),
+      ],
+      ~~~
+3. Si el template tenia enlazado el .js dentro del html, debemos borrar esta linea ya que webpack se encarga de enlazar el js con el html.
+4. Creamos un nuevo script dentro del package.json para ejecutar webpack en modo development tambien por si lo queremos usar.
+   ~~~
+   "dev": "webpack --mode development"
+   ~~~
