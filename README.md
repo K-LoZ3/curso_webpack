@@ -299,3 +299,32 @@ Puedes usarlo en los imports de la siguiente manera.
    ~~~
    import modulo from "@ejemplo/archivo.js";
    ~~~
+#### Variables de entorno
+Las variables de entorno son variables externas a nuestra aplicación que residen en el sistema operativo o en el contenedor de la aplicación que se está ejecutando. Una variable de entorno es simplemente un nombre asignado a un valor como una variable es cualquier lenguaje de programación.
+1. Instalamos el paquete necesario.
+   ~~~
+   npm install dotenv-webpack -D
+   ~~~
+2. Añadimos la configuracion necesaria dentro de un archivo .env y un archivo .env.example.
+   - En el primere estara la variable de entorno con su valor. En la clase esta es la API.
+   ~~~
+   API=https://randomuser.me/api/
+   ~~~
+   - El segundo solo estaria la variable sin el valor ya que este si se publicaria pero es solo informativo (para saber que variables hay).
+   ~~~
+   API=
+   ~~~
+3. Importamos el paquete en webpack config y creamos la configuracion en este.
+   ~~~
+   const Dotenv = require('dotenv-webpack');
+   // ...
+   plugins: [
+      // ...
+		new Dotenv(),
+   ],
+   ~~~
+4. Para utilizar esta variable, nos dirigimos al archivo donde la necesitamos y con process.env llamamos la variable que creamos.
+   ~~~
+   // En esta clase la variable es la direccion de la API y se necesita en utils/getData.js.
+   const API = process.env.API;
+   ~~~
