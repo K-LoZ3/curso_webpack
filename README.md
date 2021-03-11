@@ -205,3 +205,48 @@ Con la configuracion que trae webpack agregaremos la configuracion para manejar 
       <img src="${instagram}" />
    </a>
    ~~~
+3. Para que las imagenes queden en la carpeta assets debemos en webpack decirle donde deben quedar en las configuraciones del output.
+   ~~~
+   assetModuleFilename: 'assets/images/[hash][ext][query]',
+   ~~~
+#### Loaders de fuentes
+Para manipular las fuentes y que ademas estan esten en el proyecto sin necesidad de usar un cdn, debemos descargar la fuente en .woff y .woff2.
+1. Ya con la fuente descargada, en el css, ponemos la configuracion de la fuente. Tanto el nombre que tendra, como el formato y tamaño de la fuente.
+   ~~~
+   @font-face {
+      font-family: 'Ubuntu';
+      src: url('../assets/fonts/ubuntu-regular.woff2') format('woff2'),
+         url('../assets/fonts/ubuntu-regular.woff') format('woff');
+      font-weight: 400;
+      font-style: normal;
+   }
+   ~~~
+   - Eliminamos el import del cdn de la fuente ya que la configuracion necesaria es esta.
+2. Instalamos url-loades y file-loader como dependencias de desarrollo.
+3. Creamos las reglas en webpack para copiar los archivos de las fuentes a dist y ademas leer estos archivos y usarlos en el proyecto.
+   ~~~
+   {
+      test: /\.(woff|woff2)$/,
+      use: {
+         loader: 'url-loader',
+         options: {
+            limit: 10000, // O LE PASAMOS UN BOOLEANOS TRUE O FALSE
+            // Habilita o deshabilita la transformación de archivos en base64.
+            mimetype: 'aplication/font-woff',
+            // Especifica el tipo MIME con el que se alineará el archivo. 
+            // Los MIME Types (Multipurpose Internet Mail Extensions)
+            // son la manera standard de mandar contenido a través de la red.
+            name: "[name].[ext]",
+            // EL NOMBRE INICIAL DEL ARCHIVO + SU EXTENSIÓN
+            // PUEDES AGREGARLE [name]hola.[ext] y el output del archivo seria 
+            // ubuntu-regularhola.woff
+            outputPath: './assets/fonts/', 
+            // EL DIRECTORIO DE SALIDA (SIN COMPLICACIONES)
+            publicPath: './assets/fonts/',
+            // EL DIRECTORIO PUBLICO (SIN COMPLICACIONES)
+            esModule: false 
+            // AVISAR EXPLICITAMENTE SI ES UN MODULO
+         }
+      }
+   }
+   ~~~
