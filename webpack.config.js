@@ -6,20 +6,26 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
-    entry: './src/index.js', // El punto de entrada de mi aplicación
-    output: { // Esta es la salida de mi bundle
-        path: path.resolve(__dirname, 'dist'),
-        // resolve lo que hace es darnos la ruta absoluta de el S.O hasta nuestro archivo
-        // para no tener conflictos entre Linux, Windows, etc
-        filename: '[name][contenthash].js', 
-        // EL NOMBRE DEL ARCHIVO FINAL,
-        assetModuleFilename: 'assets/images/[hash][ext][query]',
-        // Para mover las imagenes a la carpeta asstes.
-    },
-    resolve: {
-        extensions: ['.js'] // LOS ARCHIVOS QUE WEBPACK VA A LEER
-    },
-    module: {
+   entry: './src/index.js', // El punto de entrada de mi aplicación
+   output: { // Esta es la salida de mi bundle
+      path: path.resolve(__dirname, 'dist'),
+      // resolve lo que hace es darnos la ruta absoluta de el S.O hasta nuestro archivo
+      // para no tener conflictos entre Linux, Windows, etc
+      filename: '[name][contenthash].js', 
+      // EL NOMBRE DEL ARCHIVO FINAL,
+      assetModuleFilename: 'assets/images/[hash][ext][query]',
+      // Para mover las imagenes a la carpeta asstes.
+   },
+   resolve: {
+      extensions: ['.js'], // LOS ARCHIVOS QUE WEBPACK VA A LEER
+      alias: {
+         '@utils': path.resolve(__dirname, 'src/utils/'),
+         '@templates': path.resolve(__dirname, 'src/templates/'),
+         '@styles': path.resolve(__dirname, 'src/styles/'),
+         '@images': path.resolve(__dirname, 'src/assets/images/'),
+       },
+   },
+   module: {
       rules: [
          {
             // Test declara que extensión de archivos aplicara el loader
@@ -61,7 +67,7 @@ module.exports = {
                   // ubuntu-regularhola.woff
                   outputPath: './assets/fonts/', 
                   // EL DIRECTORIO DE SALIDA (SIN COMPLICACIONES)
-                  publicPath: './assets/fonts/',
+                  publicPath: '../assets/fonts/',
                   // EL DIRECTORIO PUBLICO (SIN COMPLICACIONES)
                   esModule: false 
                   // AVISAR EXPLICITAMENTE SI ES UN MODULO

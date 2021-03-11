@@ -282,3 +282,20 @@ Para manipular las fuentes y que ademas estan esten en el proyecto sin necesidad
       filename: 'assets/[name].[contenthash].css',
    }),
    ~~~
+#### Webpack Alias
+Alias ⇒ nos permiten otorgar nombres paths específicos evitando los paths largos. Para crear un alias debes agregar la siguiente configuración a webpack.
+   ~~~
+   module.exports = {
+      ...
+      resolve: {
+         ...
+      alias: {
+         '@nombreDeAlias': path.resolve(__dirname, 'src/<directorio>'),
+      },
+      }
+   }
+   ~~~
+Puedes usarlo en los imports de la siguiente manera.
+   ~~~
+   import modulo from "@ejemplo/archivo.js";
+   ~~~
