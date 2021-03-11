@@ -250,3 +250,35 @@ Para manipular las fuentes y que ademas estan esten en el proyecto sin necesidad
       }
    }
    ~~~
+#### Optimización: hashes, compresión y minificación de archivos
+1. Instalamos dependencias de desarrollador necezarias.
+   ~~~
+   npm install css-minimizer-webpack-plugin terser-webpack-plugin -D
+   ~~~
+2. Importamos estos dentro de webpack config.
+   ~~~
+   const CssMinimizerPlugin = requiere('css-minimizer-webpack-plugin');
+   const TerserPlugin = require('terser-webpack-plugin');
+   ~~~
+3. Añadimos como una opcion en la parte de optimization justo despues de plugin.
+   optimization: {
+      minimize: true,
+      minimizer: [
+         new CssMinimizerPlugin(),
+         new TerserPlugin(),
+      ],
+   },
+   ~~~
+#### Identificar las verciones que se trabajan mediante hash
+1. Cada build del proyecto se identifica con un hash.
+   ~~~
+   path: path.resolve(__dirname, 'dist'),
+   filename: '[name][contenthash].js',
+   // ...
+   mimetype: 'application/font-woff',
+   name: '[name][contenthash].[ext]',
+   // ...
+   new MiniCssExtractPlugin({
+      filename: 'assets/[name].[contenthash].css',
+   }),
+   ~~~

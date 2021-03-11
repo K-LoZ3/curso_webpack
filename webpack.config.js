@@ -2,6 +2,8 @@ const path = require('path'); // Para trabajar con archivos y rutas de directori
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
     entry: './src/index.js', // El punto de entrada de mi aplicación
@@ -9,7 +11,7 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         // resolve lo que hace es darnos la ruta absoluta de el S.O hasta nuestro archivo
         // para no tener conflictos entre Linux, Windows, etc
-        filename: 'main.js', 
+        filename: '[name][contenthash].js', 
         // EL NOMBRE DEL ARCHIVO FINAL,
         assetModuleFilename: 'assets/images/[hash][ext][query]',
         // Para mover las imagenes a la carpeta asstes.
@@ -53,7 +55,7 @@ module.exports = {
                   // Especifica el tipo MIME con el que se alineará el archivo. 
                   // Los MIME Types (Multipurpose Internet Mail Extensions)
                   // son la manera standard de mandar contenido a través de la red.
-                  name: "[name].[ext]",
+                  name: "[name][contenthash].[ext]",
                   // EL NOMBRE INICIAL DEL ARCHIVO + SU EXTENSIÓN
                   // PUEDES AGREGARLE [name]hola.[ext] y el output del archivo seria 
                   // ubuntu-regularhola.woff
@@ -74,7 +76,9 @@ module.exports = {
          template: './public/index.html', // LA RUTA AL TEMPLATE HTML
          filename: './index.html', // NOMBRE FINAL DEL ARCHIVO
       }),
-      new MiniCssExtractPlugin(),
+      new MiniCssExtractPlugin({
+         filename: 'assets/[name].[contenthash].css',
+      }),
       new CopyPlugin({
          patterns: [
             {
@@ -84,4 +88,11 @@ module.exports = {
          ],
       }),
    ],
+   optimization: {
+      minimize: true,
+      minimizer: [
+         new CssMinimizerPlugin(),
+         new TerserPlugin(),
+      ],
+   },
 }
