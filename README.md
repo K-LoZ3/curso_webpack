@@ -343,3 +343,21 @@ Hay unas configuraciones de webpack que no son necesarias cuando se ejecuta webp
    ~~~
    "dev": "webpack --config webpack.config.dev.js"
    ~~~
+#### Webpack en modo producción
+Dentro del modo produccion queremos incluir la limpieza del proyecto (eliminar los documentos duplicados, los archivos que se movieron, dejando solo la ultima modificacion). Solo en produccion porque no es necesario en modo desarrollo y ademas en desarrollo podemos comparar un archivo con otro.
+1. Instalamos el paquete para esto como dependencia de desarrollo.
+   ~~~
+   npm install clean-webpack-plugin -D
+   ~~~
+2. Importamos el plugin en el webpack config y lo instanciamos en el apartado de plugins.
+   ~~~
+   const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+   // ...
+   new Dotenv(),
+   new CleanWebpackPlugin(),
+   // ...
+   ~~~
+3. Modificamos el package.json para validar que siempre en modo produccion ejecute webpack.config.js.
+   ~~~
+   "build": "webpack --mode production --config webpack.config.js"
+   ~~~
