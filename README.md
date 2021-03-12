@@ -361,3 +361,21 @@ Dentro del modo produccion queremos incluir la limpieza del proyecto (eliminar l
    ~~~
    "build": "webpack --mode production --config webpack.config.js"
    ~~~
+#### Webpack watch
+Esta es la funcionalidad que webpack tiene para permanecer escuchando cambios en el proyecto. El modo watch hace que nuestro proyecto se compile de forma automática, es decir que está atento a cambios. Cada vez que haya un cambio hara un build automático. Otra manera es mandar la opción mediante parámetros de consola en package.json.
+   ~~~
+   {
+      "scripts": {
+         "dev:watch": "webpack --config webpack.config.dev.js --watch"
+      }
+   }
+   ~~~
+Vale la pena recordar que si aplicamos en modo producción se tomara más tiempo porque se optimizaran los recursos, por ello en modo desarrollo se salta ese paso y es más rápido la compilación.
+1. Para habilitarlo debemos agregar lo siguiente en la configuración de webpack.
+   ~~~
+   module.exports = {
+      // ...
+      mode: 'development',
+      watch: true,
+   }
+   ~~~

@@ -18,6 +18,7 @@ module.exports = {
       assetModuleFilename: 'assets/images/[hash][ext][query]',
       // Para mover las imagenes a la carpeta asstes.
    },
+   mode: 'production',
    resolve: {
       extensions: ['.js'], // LOS ARCHIVOS QUE WEBPACK VA A LEER
       alias: {

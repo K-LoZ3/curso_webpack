@@ -16,6 +16,7 @@ module.exports = {
       // Para mover las imagenes a la carpeta asstes.
    },
    mode: 'development',
+   watch: true,
    resolve: {
       extensions: ['.js'], // LOS ARCHIVOS QUE WEBPACK VA A LEER
       alias: {
