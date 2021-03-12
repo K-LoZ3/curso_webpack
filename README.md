@@ -328,3 +328,18 @@ Las variables de entorno son variables externas a nuestra aplicación que reside
    // En esta clase la variable es la direccion de la API y se necesita en utils/getData.js.
    const API = process.env.API;
    ~~~
+#### Webpack en modo desarrollo
+Hay unas configuraciones de webpack que no son necesarias cuando se ejecuta webpack en  modo desarrollo, ejemplo de esto es la parte de optimizacion.
+1. Creamos un archivo "webpack.config.dev.js", este tendra todas las configuraciones del anterior menos la de optimization.
+2. Incluimos el modo de desarrollo dentro de este archivo.
+   ~~~
+   // ...
+   mode: 'development',
+   resolve: {
+      extensions: ['.js'],
+   // ...
+   ~~~
+3. Modificamos el script "dev" del package.json para que ejecute el modo dev con estas configuraciones.
+   ~~~
+   "dev": "webpack --config webpack.config.dev.js"
+   ~~~
