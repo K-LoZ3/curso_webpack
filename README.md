@@ -379,3 +379,25 @@ Vale la pena recordar que si aplicamos en modo producción se tomara más tiempo
       watch: true,
    }
    ~~~
+#### Deploy a Netlify
+Para poder desplegar nuestra app desde un repositorio de github.
+1. Creamos la cuenta de netlyfy y conectamos con github.
+2. Creamos un archivo nettlify.toml para la configuracion de netlify.
+   ~~~
+   [build]
+      publish = "dist"
+      command = "npm run build"
+   ~~~
+3. creamos un archivo "create-env.js" para poder usar las variables de entorno dentro de netlify ya que el archivo .env no se envia al repositorio.
+   ~~~
+   const fs = require('fs');
+
+   fs.writeFileSync('./.env', ~`API=${process.env.API}\n`);
+   ~~~
+4. Enviamos los cambios al repositorio.
+5. Le damos a crear nuevo sitio en netlify y en este colocamos la configuracion que pusimos en el .toml. y desplegamos el sitio.
+6. Cuando el sitio esta desplegado mandara un error de encuentra las variables de entorno. Nos vamos a site settings buscamos la seccion environment y en editar variables creamos una nueva llamada API y le damos el valor de la variable de entorno.
+7. En el script del package.json modificamos el script para que ejecute este create-env.js.
+   ~~~
+   "build": "node ./scripts/create-env.js && webpack --config webpack.config.js",
+   ~~~
