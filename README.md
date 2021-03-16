@@ -401,3 +401,36 @@ Para poder desplegar nuestra app desde un repositorio de github.
    ~~~
    "build": "node ./scripts/create-env.js && webpack --config webpack.config.js",
    ~~~
+#### Webpack Dev Server
+Para poder tener  la configuracion del watch pero al parecer un poco mejor. De esta manera podemos hacer cambios y que se vean reflejados ademas de especificar un puerto y que sirva de servidor.
+1. Instalamos dev-server.
+   ~~~
+   npm install -D webpack-dev-server
+   ~~~
+2. Agregamos la configuracion en el archivo de desarrollo.
+   ~~~
+   module.exports = {
+      // ...
+      devServer: {
+         contentBase: path.join(__dirname, 'dist'),
+         compress: true,
+         historyApiFallback: true,
+         port: 3000,
+      }
+   }
+   ~~~
+   - contentBase ⇒ Le dice al servidor donde tiene que servir el contenido, solo es necesario si quieres servir archivos estáticos.
+   -compress ⇒ Habilita la compresión gzip
+   -historyApiFallback ⇒ cuando estas usando HTML5 History API la página index.html sera mostrada en vez de una respuesta 404.
+   - Port ⇒ es el puerto donde vamos a realizar las peticiones
+4. Para comenzar a utilizarlo debemos agregar el siguiente script a package.json.
+   ~~~
+   {
+      // ...
+      "scripts": {
+      // ...
+      "start": "webpack serve --config webpack.config.dev.js"
+      }
+   }
+   ~~~
+5. Eliminamos la configuracion de "watch: true" ya que no es necesaria debido a que dev server ya queda en escucha de cambios.

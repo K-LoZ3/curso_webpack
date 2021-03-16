@@ -16,7 +16,6 @@ module.exports = {
       // Para mover las imagenes a la carpeta asstes.
    },
    mode: 'development',
-   watch: true,
    resolve: {
       extensions: ['.js'], // LOS ARCHIVOS QUE WEBPACK VA A LEER
       alias: {
@@ -96,4 +95,10 @@ module.exports = {
       }),
       new Dotenv(),
    ],
+   devServer: {
+      contentBase: path.join(__dirname, 'dist'),
+      compress: true,
+      historyApiFallback: true,
+      port: 3005,
+   }
 }
