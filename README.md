@@ -434,3 +434,24 @@ Para poder tener  la configuracion del watch pero al parecer un poco mejor. De e
    }
    ~~~
 5. Eliminamos la configuracion de "watch: true" ya que no es necesaria debido a que dev server ya queda en escucha de cambios.
+#### Webpack Bundle Analyzer
+Cuando tenemos un proyecto es buena idea poder revisar su impacto en tamaño por ese motivo webpack nos ofrece un paquete para poder verificar y analizar el tamaño del bundle final
+1. Instalamos el analizador.
+   ~~~
+   npm install -D webpack-bundle-analyzer
+   ~~~
+2. Incluimos el plugin en el archivo de desarrollo.
+   ~~~
+   const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+   // ...
+   new Dotenv(),
+   new BundleAnalyzerPlugin(),
+   ~~~
+3. Si deseamos hacer un análisis debemos correr los siguientes comandos.
+   ~~~
+   npx webpack --profile --json > stats.json
+   ~~~
+   luego para abrir el analicis.
+   ~~~
+   npx webpack-bundle-analyzer stats.json
+   ~~~
